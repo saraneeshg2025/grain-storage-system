@@ -1,0 +1,1674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGRISILO-OS | Digital Grain Command & Storage Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #060913;
+            --bg-card: #0c1222;
+            --bg-card-hover: #131c35;
+            --bg-elevated: #16203c;
+            --border-dim: rgba(255, 255, 255, 0.08);
+            --border-glow: rgba(59, 130, 246, 0.3);
+            
+            --accent-green: #10b981;
+            --accent-green-glow: rgba(16, 185, 129, 0.25);
+            --accent-cyan: #06b6d4;
+            --accent-cyan-glow: rgba(6, 182, 212, 0.25);
+            --accent-amber: #f59e0b;
+            --accent-amber-glow: rgba(245, 158, 11, 0.25);
+            --accent-rose: #f43f5e;
+            --accent-rose-glow: rgba(244, 63, 94, 0.25);
+            --accent-blue: #3b82f6;
+            --accent-indigo: #6366f1;
+
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            line-height: 1.5;
+            background-image: 
+                radial-gradient(circle at 15% 10%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 20%, rgba(16, 185, 129, 0.06) 0%, transparent 40%),
+                radial-gradient(circle at 50% 90%, rgba(99, 102, 241, 0.06) 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 24px 20px 60px;
+        }
+
+        /* Top Brand Header */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-dim);
+            margin-bottom: 28px;
+        }
+
+        .brand-block {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .brand-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .brand-titles h1 {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-titles p {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .header-badges {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-green);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 6px 14px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            box-shadow: 0 0 8px var(--accent-green);
+            animation: pulse-dot 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.2); }
+        }
+
+        .pill-badge {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-dim);
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Top KPI Bar */
+        .kpi-strip {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .kpi-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-dim);
+            border-radius: 14px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+        }
+
+        .kpi-card.green::before { background: var(--accent-green); }
+        .kpi-card.cyan::before { background: var(--accent-cyan); }
+        .kpi-card.amber::before { background: var(--accent-amber); }
+        .kpi-card.blue::before { background: var(--accent-blue); }
+
+        .kpi-icon {
+            font-size: 24px;
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-dim);
+        }
+
+        .kpi-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .kpi-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .kpi-sub {
+            font-size: 11px;
+            color: var(--text-dim);
+        }
+
+        /* Nav Tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-dim);
+            padding: 6px;
+            border-radius: 14px;
+            margin-bottom: 28px;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .tab-btn.active {
+            color: #ffffff;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .tab-btn.active span.indicator {
+            background: var(--accent-green);
+            box-shadow: 0 0 8px var(--accent-green);
+        }
+
+        .tab-btn span.indicator {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--text-dim);
+        }
+
+        /* Tab Content Panes */
+        .tab-pane {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Layout Grids */
+        .two-col-grid {
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 980px) {
+            .two-col-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .glass-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-dim);
+            border-radius: 18px;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(16px);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-dim);
+        }
+
+        .panel-title {
+            font-size: 16px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .panel-sub {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Silo Visualizer Component */
+        .silo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 10px;
+        }
+
+        .silo-wrapper {
+            width: 180px;
+            height: 290px;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .silo-roof {
+            width: 180px;
+            height: 40px;
+            background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .silo-roof-vent {
+            position: absolute;
+            top: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 8px;
+            background: #94a3b8;
+            border-radius: 2px;
+        }
+
+        .silo-body {
+            width: 180px;
+            height: 220px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 2px solid #334155;
+            border-top: none;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column-reverse;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
+        }
+
+        .silo-grain-fill {
+            width: 100%;
+            height: 20%;
+            background: linear-gradient(180deg, #f59e0b 0%, #b45309 100%);
+            position: relative;
+            transition: height 1s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 -4px 15px rgba(245, 158, 11, 0.3);
+        }
+
+        .silo-grain-wave {
+            position: absolute;
+            top: -6px;
+            left: 0;
+            width: 200%;
+            height: 12px;
+            background: radial-gradient(ellipse at center, #fbbf24 0%, #d97706 100%);
+            opacity: 0.8;
+            border-radius: 50%;
+        }
+
+        .silo-hopper {
+            width: 180px;
+            height: 30px;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            clip-path: polygon(0% 0%, 100% 0%, 65% 100%, 35% 100%);
+            border-bottom: 2px solid #334155;
+        }
+
+        .silo-ticks {
+            position: absolute;
+            right: 8px;
+            top: 10px;
+            bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-size: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            color: rgba(255, 255, 255, 0.35);
+            pointer-events: none;
+        }
+
+        .aeration-fan-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-dim);
+            padding: 10px 16px;
+            border-radius: 12px;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .fan-blade {
+            font-size: 20px;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+
+        .fan-blade.spinning {
+            animation: spin-fan 0.8s linear infinite;
+            color: var(--accent-cyan);
+            filter: drop-shadow(0 0 8px var(--accent-cyan));
+        }
+
+        @keyframes spin-fan {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Telemetry Cards Grid */
+        .telemetry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .tele-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-dim);
+            border-radius: 14px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .tele-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .tele-val {
+            font-size: 26px;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            margin: 10px 0 4px;
+        }
+
+        .tele-safe {
+            font-size: 11px;
+            color: var(--text-dim);
+        }
+
+        .risk-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .risk-optimal {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-green);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .risk-warning {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent-amber);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .risk-critical {
+            background: rgba(244, 63, 94, 0.15);
+            color: var(--accent-rose);
+            border: 1px solid rgba(244, 63, 94, 0.3);
+            animation: pulse-critical 1.5s infinite;
+        }
+
+        @keyframes pulse-critical {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.4); }
+            50% { box-shadow: 0 0 15px 4px rgba(244, 63, 94, 0.2); }
+        }
+
+        .recommendation-box {
+            background: rgba(59, 130, 246, 0.08);
+            border: 1px solid rgba(59, 130, 246, 0.25);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+
+        .recommendation-box.warn {
+            background: rgba(245, 158, 11, 0.08);
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
+        .recommendation-box.crit {
+            background: rgba(244, 63, 94, 0.08);
+            border-color: rgba(244, 63, 94, 0.3);
+        }
+
+        /* Forms and Sliders */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+        }
+
+        .form-label span.val-display {
+            color: var(--accent-cyan);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+        }
+
+        .input-control {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-dim);
+            border-radius: 10px;
+            padding: 10px 14px;
+            color: var(--text-main);
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .input-control:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        .range-slider {
+            width: 100%;
+            accent-color: var(--accent-cyan);
+            cursor: pointer;
+            height: 6px;
+            background: #1e293b;
+            border-radius: 4px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            padding: 11px 20px;
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .btn-success:hover {
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-dim);
+            color: var(--text-muted);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: none;
+        }
+
+        .preset-pills {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .preset-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-dim);
+            color: var(--text-muted);
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .preset-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
+        }
+
+        /* Provenance Passport Card */
+        .passport-card {
+            background: linear-gradient(145deg, #0f172a 0%, #090e1c 100%);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 20px;
+            padding: 28px;
+            position: relative;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .passport-stamp {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            border: 2px dashed var(--accent-green);
+            color: var(--accent-green);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transform: rotate(4deg);
+            background: rgba(16, 185, 129, 0.06);
+        }
+
+        .hash-box {
+            background: #020617;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 16px 0 24px;
+            font-size: 12px;
+            color: #38bdf8;
+            word-break: break-all;
+        }
+
+        /* Journey Milestones */
+        .timeline {
+            position: relative;
+            padding-left: 28px;
+            margin-top: 20px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: #334155;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 22px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -28px;
+            top: 4px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #0f172a;
+            border: 3px solid var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .timeline-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .timeline-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin: 2px 0;
+        }
+
+        .timeline-verified {
+            font-size: 11px;
+            color: var(--accent-green);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Report Table Styling */
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin-top: 14px;
+        }
+
+        .report-table th {
+            text-align: left;
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-dim);
+            font-weight: 600;
+        }
+
+        .report-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            color: var(--text-main);
+        }
+
+        .report-table tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* JSON Raw Viewer */
+        .json-viewer {
+            background: #020617;
+            border: 1px solid var(--border-dim);
+            border-radius: 12px;
+            padding: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12.5px;
+            color: #a5f3fc;
+            max-height: 380px;
+            overflow: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .toast-notify {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1e293b;
+            border: 1px solid var(--accent-green);
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            font-size: 13.5px;
+            display: none;
+            z-index: 999;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header -->
+    <header>
+        <div class="brand-block">
+            <div class="brand-icon">🌾</div>
+            <div class="brand-titles">
+                <h1>AGRISILO-OS &bull; Digital Grain Command</h1>
+                <p>FCI &amp; PDS Public Distribution System &bull; Micro-Climate Telemetry &bull; Dynamic MSP Quality Matrix &bull; Cryptographic Provenance</p>
+            </div>
+        </div>
+        <div class="header-badges">
+            <div class="status-badge" id="backendStatusBadge">
+                <div class="status-dot"></div>
+                <span id="backendStatusText">Spring Boot 3 Live (Port 8080)</span>
+            </div>
+            <div class="pill-badge">H2 / MySQL Ready</div>
+            <div class="pill-badge">Double-Entry Ledger Verified</div>
+        </div>
+    </header>
+
+    <!-- Top KPI Bar -->
+    <div class="kpi-strip">
+        <div class="kpi-card green">
+            <div class="kpi-icon">🏢</div>
+            <div>
+                <div class="kpi-label">Total Silo Capacity</div>
+                <div class="kpi-value mono" id="kpiTotalCap">100,000 kg</div>
+                <div class="kpi-sub">Central Silo Zone 3</div>
+            </div>
+        </div>
+        <div class="kpi-card amber">
+            <div class="kpi-icon">🌾</div>
+            <div>
+                <div class="kpi-label">Active Grain Stored</div>
+                <div class="kpi-value mono" id="kpiStoredGrain">20,000 kg</div>
+                <div class="kpi-sub" id="kpiFillSub">20.0% Silo Fill Level</div>
+            </div>
+        </div>
+        <div class="kpi-card cyan">
+            <div class="kpi-icon">🛡️</div>
+            <div>
+                <div class="kpi-label">Free Buffer Capacity</div>
+                <div class="kpi-value mono" id="kpiFreeCap">80,000 kg</div>
+                <div class="kpi-sub">Available for Procurement</div>
+            </div>
+        </div>
+        <div class="kpi-card blue">
+            <div class="kpi-icon">📡</div>
+            <div>
+                <div class="kpi-label">Spoilage Prevention</div>
+                <div class="kpi-value mono" id="kpiRiskStatus">OPTIMAL</div>
+                <div class="kpi-sub">IoT Telemetry Active</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="tabs">
+        <button class="tab-btn active" onclick="switchTab('tab-telemetry', this)">
+            <span class="indicator"></span>
+            <span>📡 IoT Silo Micro-Climate Telemetry</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('tab-pricing', this)">
+            <span class="indicator"></span>
+            <span>🌾 Dynamic MSP &amp; Quality Incentive</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('tab-provenance', this)">
+            <span class="indicator"></span>
+            <span>🛡️ Digital Grain Quality Passport</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('tab-reports', this)">
+            <span class="indicator"></span>
+            <span>📊 Double-Entry Financial &amp; Capacity Reports</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('tab-api', this)">
+            <span class="indicator"></span>
+            <span>⚡ REST API Sandbox</span>
+        </button>
+    </nav>
+
+    <!-- TAB 1: IOT SILO TELEMETRY & SPOILAGE PREVENTION -->
+    <section id="tab-telemetry" class="tab-pane active">
+        <div class="two-col-grid">
+            <!-- Left: Silo Tank Visualizer -->
+            <div class="glass-panel">
+                <div class="panel-header">
+                    <div>
+                        <div class="panel-title">🏗️ Silo Tank Chamber A1</div>
+                        <div class="panel-sub">Real-Time Hermetic Level &amp; Aeration</div>
+                    </div>
+                    <span class="risk-badge risk-optimal" id="siloLevelBadge">20% Fill</span>
+                </div>
+
+                <div class="silo-container">
+                    <div class="silo-wrapper">
+                        <div class="silo-roof">
+                            <div class="silo-roof-vent"></div>
+                        </div>
+                        <div class="silo-body">
+                            <div class="silo-ticks">
+                                <span>100T</span>
+                                <span>75T</span>
+                                <span>50T</span>
+                                <span>25T</span>
+                                <span>0T</span>
+                            </div>
+                            <div class="silo-grain-fill" id="siloGrainFill" style="height: 20%;">
+                                <div class="silo-grain-wave"></div>
+                            </div>
+                        </div>
+                        <div class="silo-hopper"></div>
+                    </div>
+
+                    <div class="aeration-fan-box">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span class="fan-blade" id="aerationFanIcon">🌀</span>
+                            <div>
+                                <div style="font-size: 13px; font-weight: 700;" id="aerationFanTitle">Aeration Fan: STANDBY</div>
+                                <div style="font-size: 11px; color: var(--text-muted);" id="aerationFanSub">Micro-climate in thermal equilibrium</div>
+                            </div>
+                        </div>
+                        <span class="risk-badge risk-optimal" id="fanStatusPill">IDLE</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Live IoT Readings & Telemetry Simulator -->
+            <div class="glass-panel">
+                <div class="panel-header">
+                    <div>
+                        <div class="panel-title">📊 Multi-Sensor Live Feed &amp; Spoilage Prediction</div>
+                        <div class="panel-sub">Sensors deployed at Core, Upper Plenum &amp; Aeration Ducts</div>
+                    </div>
+                    <button class="btn btn-outline" style="padding: 6px 12px; font-size: 12px;" onclick="loadLatestTelemetry()">🔄 Refresh Feed</button>
+                </div>
+
+                <div class="telemetry-grid">
+                    <div class="tele-card">
+                        <div class="tele-title">
+                            <span>Core Temperature</span>
+                            <span>🌡️</span>
+                        </div>
+                        <div class="tele-val text-green" id="teleTemp">24.5 °C</div>
+                        <div class="tele-safe">Target: 15°C – 28°C</div>
+                    </div>
+                    <div class="tele-card">
+                        <div class="tele-title">
+                            <span>Relative Humidity</span>
+                            <span>💧</span>
+                        </div>
+                        <div class="tele-val" id="teleHumidity">54.0 %</div>
+                        <div class="tele-safe">Threshold: &lt; 65% RH</div>
+                    </div>
+                    <div class="tele-card">
+                        <div class="tele-title">
+                            <span>CO2 Respiration</span>
+                            <span>💨</span>
+                        </div>
+                        <div class="tele-val" id="teleCo2">480 PPM</div>
+                        <div class="tele-safe">Fermentation Risk: &gt; 1000 PPM</div>
+                    </div>
+                    <div class="tele-card">
+                        <div class="tele-title">
+                            <span>Spoilage Risk</span>
+                            <span>🛡️</span>
+                        </div>
+                        <div style="margin: 10px 0 4px;">
+                            <span class="risk-badge risk-optimal" id="teleRiskBadge">OPTIMAL</span>
+                        </div>
+                        <div class="tele-safe" id="teleSafeDays">Safe Period: ~270 Days</div>
+                    </div>
+                </div>
+
+                <div class="recommendation-box" id="recommendationAlertBox">
+                    <span style="font-size: 20px;">💡</span>
+                    <div>
+                        <div style="font-size: 13.5px; font-weight: 700; margin-bottom: 2px;">Automated Aeration Intelligence:</div>
+                        <div style="font-size: 13px; color: var(--text-muted);" id="teleRecommendation">
+                            OPTIMAL: Silo micro-climate is stable. Grain quality index is 98.5%. Safe hermetic preservation active.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive IoT Sensor Injection Form -->
+                <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-dim); border-radius: 14px; padding: 20px;">
+                    <div style="font-size: 14px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+                        <span>🧪 Transmit Live IoT Sensor Telemetry (Simulation)</span>
+                        <span class="mono" style="font-size: 11px; color: var(--accent-cyan);">POST /api/telemetry/record</span>
+                    </div>
+
+                    <div class="preset-pills">
+                        <span style="font-size: 12px; color: var(--text-muted); align-self: center;">Presets:</span>
+                        <button class="preset-btn" onclick="applyTelemetryPreset(23.5, 52.0, 450.0, 'Chamber A1 - Silo Core')">🟢 Optimal Equilibrium</button>
+                        <button class="preset-btn" onclick="applyTelemetryPreset(29.8, 68.5, 890.0, 'Chamber B2 - Upper Plenum')">🟡 High Moisture Warning</button>
+                        <button class="preset-btn" onclick="applyTelemetryPreset(36.2, 79.0, 1680.0, 'Chamber C1 - High Density')">🔴 Critical Hotspot &amp; Spoilage</button>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px;">
+                        <div class="form-group">
+                            <label class="form-label">Chamber / Silo Section</label>
+                            <input type="text" class="input-control" id="iotSectionInput" value="Chamber A1 - Silo Core">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>Temperature (°C)</span>
+                                <span class="val-display" id="iotTempVal">24.5 °C</span>
+                            </label>
+                            <input type="range" class="range-slider" id="iotTempInput" min="10" max="50" step="0.5" value="24.5" oninput="document.getElementById('iotTempVal').innerText = this.value + ' °C'">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>Relative Humidity (%)</span>
+                                <span class="val-display" id="iotHumidityVal">54.0 %</span>
+                            </label>
+                            <input type="range" class="range-slider" id="iotHumidityInput" min="20" max="95" step="1" value="54" oninput="document.getElementById('iotHumidityVal').innerText = this.value + ' %'">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>CO2 Respiration (PPM)</span>
+                                <span class="val-display" id="iotCo2Val">480 PPM</span>
+                            </label>
+                            <input type="range" class="range-slider" id="iotCo2Input" min="300" max="2500" step="10" value="480" oninput="document.getElementById('iotCo2Val').innerText = this.value + ' PPM'">
+                        </div>
+                    </div>
+
+                    <button class="btn btn-success" style="width: 100%; margin-top: 6px;" onclick="submitTelemetryReading()">
+                        📡 Transmit Sensor Telemetry to Backend
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TAB 2: DYNAMIC MSP & QUALITY INCENTIVE CALCULATOR -->
+    <section id="tab-pricing" class="tab-pane">
+        <div class="two-col-grid">
+            <!-- Left: Dynamic Pricing Sliders -->
+            <div class="glass-panel">
+                <div class="panel-header">
+                    <div>
+                        <div class="panel-title">🌾 Procurement Parameters</div>
+                        <div class="panel-sub">Government Minimum Support Price (MSP) &amp; Dockage Matrix</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Agricultural Commodity</label>
+                    <select class="input-control" id="pricingGrainType" onchange="runPricingCalculation()">
+                        <option value="WHEAT">Wheat (Base MSP: ₹2,275 / Quintal)</option>
+                        <option value="RICE">Paddy / Rice (Base MSP: ₹2,300 / Quintal)</option>
+                        <option value="MAIZE">Yellow Maize (Base MSP: ₹2,090 / Quintal)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <span>Procurement Quantity (kg)</span>
+                        <span class="val-display" id="pricingQtyVal">20,000 kg (200 Quintals)</span>
+                    </label>
+                    <input type="range" class="range-slider" id="pricingQty" min="1000" max="50000" step="1000" value="20000" oninput="updatePricingQtyText(this.value); runPricingCalculation();">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <span>Moisture Percentage (%)</span>
+                        <span class="val-display" id="pricingMoistureVal">11.2 % (Optimal)</span>
+                    </label>
+                    <input type="range" class="range-slider" id="pricingMoisture" min="8" max="18" step="0.1" value="11.2" oninput="updatePricingMoistureText(this.value); runPricingCalculation();">
+                    <div style="font-size: 11px; color: var(--text-dim); margin-top: 4px;">PDS Benchmark: 12.0%. Deduction of 1.5%/1% moisture excess.</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <span>Foreign Matter / Impurity (%)</span>
+                        <span class="val-display" id="pricingImpurityVal">1.4 % (Compliant)</span>
+                    </label>
+                    <input type="range" class="range-slider" id="pricingImpurity" min="0" max="6" step="0.1" value="1.4" oninput="updatePricingImpurityText(this.value); runPricingCalculation();">
+                    <div style="font-size: 11px; color: var(--text-dim); margin-top: 4px;">PDS Benchmark: &le; 2.0%. Grains &gt; 5% are automatically rejected.</div>
+                </div>
+
+                <button class="btn btn-outline" style="width: 100%; margin-top: 10px;" onclick="runPricingCalculation()">
+                    ⚡ Recalculate Live MSP &amp; Dockage
+                </button>
+            </div>
+
+            <!-- Right: Dynamic Direct Benefit Transfer (DBT) Payout Results -->
+            <div class="glass-panel">
+                <div class="panel-header">
+                    <div>
+                        <div class="panel-title">💳 Farmer Direct Benefit Transfer (DBT) Computation</div>
+                        <div class="panel-sub">Dynamic formula-driven procurement settlement</div>
+                    </div>
+                    <span class="risk-badge risk-optimal" id="pricingGradeBadge">GRADE_A</span>
+                </div>
+
+                <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-dim); border-radius: 14px; padding: 20px; margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px;">
+                        <div>
+                            <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase;">Total Farmer Net Payable</div>
+                            <div class="mono" style="font-size: 36px; font-weight: 800; color: var(--accent-green);" id="pricingNetPayable">₹ 4,55,000.00</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 12px; color: var(--text-muted);">Effective Procurement Rate</div>
+                            <div class="mono" style="font-size: 20px; font-weight: 700; color: var(--accent-cyan);" id="pricingEffectiveRate">₹ 22.75 / kg (₹2,275.00/qtl)</div>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; border-top: 1px solid var(--border-dim); padding-top: 16px;">
+                        <div>
+                            <div style="font-size: 11px; color: var(--text-dim);">Quality Score</div>
+                            <div class="mono" style="font-size: 16px; font-weight: 700; color: #f8fafc;" id="pricingScore">90.0 / 100</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; color: var(--text-dim);">Gross Base MSP</div>
+                            <div class="mono" style="font-size: 16px; font-weight: 700; color: #f8fafc;" id="pricingGrossBase">₹ 4,55,000.00</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; color: var(--accent-green);">Grade A Bonus</div>
+                            <div class="mono" style="font-size: 16px; font-weight: 700; color: var(--accent-green);" id="pricingBonus">+₹ 0.00</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; color: var(--accent-rose);">Dockage Penalty</div>
+                            <div class="mono" style="font-size: 16px; font-weight: 700; color: var(--accent-rose);" id="pricingPenalty">-₹ 0.00</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recommendation-box" id="pricingPolicyBox">
+                    <span style="font-size: 20px;">📜</span>
+                    <div>
+                        <div style="font-size: 13.5px; font-weight: 700; margin-bottom: 2px;">Statutory Pricing Policy Note:</div>
+                        <div style="font-size: 13px; color: var(--text-muted);" id="pricingPolicyNote">
+                            Standard Grade A Approved - 100% MSP payout credited directly via DBT.
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-outline" style="flex: 1;" onclick="switchTab('tab-api', document.querySelectorAll('.tab-btn')[4])">
+                        🔍 Inspect Accounting Journal
+                    </button>
+                    <button class="btn btn-success" style="flex: 1;" onclick="showToast('Farmer Direct Benefit Transfer (DBT) batch queued with SBI Mandi Gateway!')">
+                        🏦 Authorize DBT Bank Payout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TAB 3: DIGITAL GRAIN QUALITY PASSPORT -->
+    <section id="tab-provenance" class="tab-pane">
+        <div class="two-col-grid">
+            <!-- Left: Passport Search & Controls -->
+            <div class="glass-panel">
+                <div class="panel-header">
+                    <div>
+                        <div class="panel-title">🛡️ Cryptographic Grain Provenance</div>
+                        <div class="panel-sub">Anti-Diversion &amp; Anti-Adulteration PDS Tracking</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Enter Certified Lot Identifier</label>
+                    <input type="text" class="input-control mono" id="passportLotSearch" value="LOT-PDS-WHEAT-01">
+                </div>
+
+                <button class="btn btn-success" style="width: 100%; margin-bottom: 20px;" onclick="fetchGrainPassport()">
+                    🔍 Cryptographically Verify Passport
+                </button>
+
+                <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-dim); border-radius: 12px; padding: 16px;">
+                    <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">🔐 SHA-256 Hashing Specifications</div>
+                    <p style="font-size: 12px; color: var(--text-muted); line-height: 1.6;">
+                        Each grain batch generates an immutable cryptographic signature incorporating Lot Number, Certified Grade, Mandi Weighbridge Reading, Lab Assay Score, and Timestamp. Any unauthorized physical swapping triggers a cryptographic hash mismatch.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Right: Interactive Digital Passport Certificate -->
+            <div class="passport-card" id="passportDisplayCard">
+                <div class="passport-stamp">VERIFIED TAMPER-PROOF</div>
+                <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 8px;">
+                    <span style="font-size: 32px;">📜</span>
+                    <div>
+                        <div style="font-size: 11px; text-transform: uppercase; color: var(--accent-cyan); font-weight: 700; letter-spacing: 0.05em;">Digital Grain Quality Passport</div>
+                        <h2 style="font-size: 22px; font-weight: 800; color: #ffffff;" id="passLotNo">LOT-PDS-WHEAT-01</h2>
+                    </div>
+                </div>
+
+                <div class="hash-box">
+                    <span style="color: var(--text-muted); margin-right: 8px;">BATCH SHA-256:</span>
+                    <span class="mono" id="passHash">0x7F94AB13E67D108C5D3098C1...</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 16px; margin-bottom: 24px;">
+                    <div>
+                        <div style="font-size: 11px; color: var(--text-dim);">Product</div>
+                        <div style="font-size: 14px; font-weight: 700;" id="passProduct">Wheat Lot Grade A</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 11px; color: var(--text-dim);">Batch Weight</div>
+                        <div class="mono" style="font-size: 14px; font-weight: 700;" id="passQty">20,000 kg</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 11px; color: var(--text-dim);">Quality Assay</div>
+                        <div class="mono" style="font-size: 14px; font-weight: 700; color: var(--accent-green);" id="passGrade">GRADE A (89.5/100)</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 11px; color: var(--text-dim);">Safe Hermetic Storage</div>
+                        <div class="mono" style="font-size: 14px; font-weight: 700; color: var(--accent-cyan);" id="passSafeDays">~270 Days Safe</div>
+                    </div>
+                </div>
+
+                <div style="font-size: 13.5px; font-weight: 700; margin-bottom: 12px; border-top: 1px solid var(--border-dim); padding-top: 16px;">
+                    📍 Verifiable Custody Journey &amp; Inspection Milestones:
+                </div>
+
+                <div class="timeline" id="passMilestones">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-title">1. APMC Mandi Intake</div>
+                        <div class="timeline-meta">Grain Mandi Road, Ludhiana, Punjab</div>
+                        <div class="timeline-verified">&check; Verified by Mandi Procurement Officer</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-title">2. Scientific Quality Assay</div>
+                        <div class="timeline-meta">Central Quality Lab - Station 4</div>
+                        <div class="timeline-verified">&check; Certified GRADE_A by Chief Quality Inspector</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-title">3. Silo Intake &amp; Hermetic Storage</div>
+                        <div class="timeline-meta">Central Grain Silo Zone 3</div>
+                        <div class="timeline-verified">&check; Verified by Warehouse Director</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TAB 4: DOUBLE-ENTRY REPORTS -->
+    <section id="tab-reports" class="tab-pane">
+        <div class="glass-panel" style="margin-bottom: 24px;">
+            <div class="panel-header">
+                <div>
+                    <div class="panel-title">📊 Live Operational &amp; Financial Reporting Engine</div>
+                    <div class="panel-sub">Real-time aggregation from Double-Entry Journal and Warehouse Repositories</div>
+                </div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button class="btn btn-outline" style="padding: 6px 12px; font-size: 12px;" onclick="loadReport('/api/reports/warehouse-capacity', 'Warehouse Capacity Matrix')">🏢 Silo Capacity</button>
+                    <button class="btn btn-outline" style="padding: 6px 12px; font-size: 12px;" onclick="loadReport('/api/reports/inventory', 'Inventory Valuation')">🌾 Stock Valuation</button>
+                    <button class="btn btn-outline" style="padding: 6px 12px; font-size: 12px;" onclick="loadReport('/api/reports/balance-sheet', 'Double-Entry Balance Sheet')">⚖️ Balance Sheet</button>
+                    <button class="btn btn-outline" style="padding: 6px 12px; font-size: 12px;" onclick="loadReport('/api/reports/profit-loss', 'Profit & Loss Statement')">📈 Profit &amp; Loss</button>
+                </div>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                <h3 style="font-size: 15px; font-weight: 700;" id="reportActiveTitle">🏢 Warehouse Capacity Matrix</h3>
+                <span class="mono" style="font-size: 11px; color: var(--accent-cyan);" id="reportActiveEndpoint">GET /api/reports/warehouse-capacity</span>
+            </div>
+
+            <!-- Report Table Container -->
+            <div style="overflow-x: auto; margin-bottom: 20px;" id="reportTableContainer">
+                <table class="report-table">
+                    <thead>
+                        <tr id="reportTableHeadRow">
+                            <th>Warehouse Code</th>
+                            <th>Name</th>
+                            <th>Total Cap</th>
+                            <th>Used Cap</th>
+                            <th>Available</th>
+                            <th>Utilization %</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reportTableBody">
+                        <tr>
+                            <td class="mono">WH-CENTRAL-03</td>
+                            <td>Central Grain Silo Zone 3</td>
+                            <td class="mono">100,000 kg</td>
+                            <td class="mono" style="color: var(--accent-amber);">20,000 kg</td>
+                            <td class="mono" style="color: var(--accent-green);">80,000 kg</td>
+                            <td class="mono">20.0 %</td>
+                            <td><span class="risk-badge risk-optimal">ACTIVE</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <details>
+                <summary style="font-size: 12px; color: var(--text-muted); cursor: pointer; margin-bottom: 8px;">View Raw JSON Payload</summary>
+                <div class="json-viewer" id="reportRawJson">Click a report button above to view live JSON response...</div>
+            </details>
+        </div>
+    </section>
+
+    <!-- TAB 5: REST API QUICK TESTER -->
+    <section id="tab-api" class="tab-pane">
+        <div class="glass-panel">
+            <div class="panel-header">
+                <div>
+                    <div class="panel-title">⚡ Interactive REST API Console</div>
+                    <div class="panel-sub">Test all 17 Spring Boot Controller modules directly in the browser</div>
+                </div>
+                <a href="/postman_collection.json" download class="btn btn-outline" style="padding: 6px 12px; font-size: 12px; text-decoration: none;">
+                    📥 Download Postman Collection
+                </a>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-bottom: 24px;">
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-dim); border-radius: 12px; padding: 16px; cursor: pointer;" onclick="testApiEndpoint('GET', '/api/warehouses')">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <span style="font-weight: 700; font-size: 13.5px;">Warehouse Master</span>
+                        <span class="risk-badge risk-optimal">GET</span>
+                    </div>
+                    <div class="mono" style="font-size: 11.5px; color: var(--text-muted);">/api/warehouses</div>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-dim); border-radius: 12px; padding: 16px; cursor: pointer;" onclick="testApiEndpoint('GET', '/api/telemetry/warehouse/1/latest')">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <span style="font-weight: 700; font-size: 13.5px;">Silo IoT Telemetry</span>
+                        <span class="risk-badge risk-optimal">GET</span>
+                    </div>
+                    <div class="mono" style="font-size: 11.5px; color: var(--text-muted);">/api/telemetry/warehouse/1/latest</div>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-dim); border-radius: 12px; padding: 16px; cursor: pointer;" onclick="testApiEndpoint('GET', '/api/provenance/LOT-PDS-WHEAT-01')">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <span style="font-weight: 700; font-size: 13.5px;">Digital Grain Passport</span>
+                        <span class="risk-badge risk-optimal">GET</span>
+                    </div>
+                    <div class="mono" style="font-size: 11.5px; color: var(--text-muted);">/api/provenance/LOT-PDS-WHEAT-01</div>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-dim); border-radius: 12px; padding: 16px; cursor: pointer;" onclick="testApiEndpoint('GET', '/api/contacts')">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <span style="font-weight: 700; font-size: 13.5px;">Farmers &amp; Agencies</span>
+                        <span class="risk-badge risk-optimal">GET</span>
+                    </div>
+                    <div class="mono" style="font-size: 11.5px; color: var(--text-muted);">/api/contacts</div>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-dim); border-radius: 12px; padding: 16px; cursor: pointer;" onclick="testApiEndpoint('GET', '/api/accounts')">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <span style="font-weight: 700; font-size: 13.5px;">Chart of Accounts</span>
+                        <span class="risk-badge risk-optimal">GET</span>
+                    </div>
+                    <div class="mono" style="font-size: 11.5px; color: var(--text-muted);">/api/accounts</div>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-dim); border-radius: 12px; padding: 16px; cursor: pointer;" onclick="testApiEndpoint('GET', '/api/budgets/variance')">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <span style="font-weight: 700; font-size: 13.5px;">Procurement Budget Variance</span>
+                        <span class="risk-badge risk-optimal">GET</span>
+                    </div>
+                    <div class="mono" style="font-size: 11.5px; color: var(--text-muted);">/api/budgets/variance</div>
+                </div>
+            </div>
+
+            <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">Live API Response Console:</div>
+            <div class="json-viewer" id="apiResponseConsole">Select any endpoint above to execute a live HTTP request...</div>
+        </div>
+    </section>
+
+</div>
+
+<div class="toast-notify" id="toastBox">Notification message</div>
+
+<script>
+    // Tab Switching Logic
+    function switchTab(tabId, el) {
+        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        const target = document.getElementById(tabId);
+        if (target) target.classList.add('active');
+        if (el) el.classList.add('active');
+    }
+
+    function showToast(msg) {
+        const box = document.getElementById('toastBox');
+        box.innerText = msg;
+        box.style.display = 'block';
+        setTimeout(() => { box.style.display = 'none'; }, 3500);
+    }
+
+    // Telemetry Simulation Helpers
+    function applyTelemetryPreset(temp, hum, co2, sec) {
+        document.getElementById('iotTempInput').value = temp;
+        document.getElementById('iotHumidityInput').value = hum;
+        document.getElementById('iotCo2Input').value = co2;
+        document.getElementById('iotSectionInput').value = sec;
+
+        document.getElementById('iotTempVal').innerText = temp + ' °C';
+        document.getElementById('iotHumidityVal').innerText = hum + ' %';
+        document.getElementById('iotCo2Val').innerText = co2 + ' PPM';
+    }
+
+    async function submitTelemetryReading() {
+        const payload = {
+            warehouseId: 1,
+            siloSection: document.getElementById('iotSectionInput').value,
+            temperatureCelsius: parseFloat(document.getElementById('iotTempInput').value),
+            relativeHumidityPercentage: parseFloat(document.getElementById('iotHumidityInput').value),
+            co2Ppm: parseFloat(document.getElementById('iotCo2Input').value)
+        };
+
+        try {
+            const res = await fetch('/api/telemetry/record', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            if (data.data) {
+                renderTelemetryData(data.data);
+                showToast('IoT Telemetry transmitted & analyzed successfully!');
+            }
+        } catch (e) {
+            console.error(e);
+            showToast('Telemetry submission failed: ' + e);
+        }
+    }
+
+    function renderTelemetryData(t) {
+        document.getElementById('teleTemp').innerText = t.temperatureCelsius.toFixed(1) + ' °C';
+        document.getElementById('teleHumidity').innerText = t.relativeHumidityPercentage.toFixed(1) + ' %';
+        document.getElementById('teleCo2').innerText = Math.round(t.co2Ppm) + ' PPM';
+
+        const riskBadge = document.getElementById('teleRiskBadge');
+        riskBadge.innerText = t.riskLevel;
+        riskBadge.className = 'risk-badge ' + (t.riskLevel === 'CRITICAL' ? 'risk-critical' : (t.riskLevel === 'WARNING' ? 'risk-warning' : 'risk-optimal'));
+
+        document.getElementById('kpiRiskStatus').innerText = t.riskLevel;
+
+        const fanIcon = document.getElementById('aerationFanIcon');
+        const fanPill = document.getElementById('fanStatusPill');
+        const fanTitle = document.getElementById('aerationFanTitle');
+        const fanSub = document.getElementById('aerationFanSub');
+
+        if (t.aerationFanActive) {
+            fanIcon.classList.add('spinning');
+            fanPill.innerText = 'ACTIVE (1400 RPM)';
+            fanPill.className = 'risk-badge risk-critical';
+            fanTitle.innerText = 'Aeration Fan: ENGAGED';
+            fanSub.innerText = 'Forced convection cooling actively evacuating heat & moisture';
+        } else {
+            fanIcon.classList.remove('spinning');
+            fanPill.innerText = 'IDLE';
+            fanPill.className = 'risk-badge risk-optimal';
+            fanTitle.innerText = 'Aeration Fan: STANDBY';
+            fanSub.innerText = 'Micro-climate in thermal equilibrium';
+        }
+
+        const alertBox = document.getElementById('recommendationAlertBox');
+        alertBox.className = 'recommendation-box ' + (t.riskLevel === 'CRITICAL' ? 'crit' : (t.riskLevel === 'WARNING' ? 'warn' : ''));
+        document.getElementById('teleRecommendation').innerText = t.recommendation || 'Continuous telemetry active.';
+    }
+
+    async function loadLatestTelemetry() {
+        try {
+            const res = await fetch('/api/telemetry/warehouse/1/latest');
+            const json = await res.json();
+            if (json.data) {
+                renderTelemetryData(json.data);
+            }
+        } catch (e) {
+            console.warn('Backend telemetry error:', e);
+        }
+    }
+
+    // Dynamic Pricing Logic
+    function updatePricingQtyText(v) {
+        document.getElementById('pricingQtyVal').innerText = Number(v).toLocaleString() + ' kg (' + (v/100).toFixed(0) + ' Quintals)';
+    }
+
+    function updatePricingMoistureText(v) {
+        document.getElementById('pricingMoistureVal').innerText = v + ' % ' + (v <= 12 ? '(Optimal)' : '(Excess)');
+    }
+
+    function updatePricingImpurityText(v) {
+        document.getElementById('pricingImpurityVal').innerText = v + ' % ' + (v <= 2.0 ? '(Compliant)' : '(Excess Dockage)');
+    }
+
+    async function runPricingCalculation() {
+        const payload = {
+            grainType: document.getElementById('pricingGrainType').value,
+            quantityKg: parseFloat(document.getElementById('pricingQty').value),
+            moisturePercentage: parseFloat(document.getElementById('pricingMoisture').value),
+            impurityPercentage: parseFloat(document.getElementById('pricingImpurity').value)
+        };
+
+        try {
+            const res = await fetch('/api/pricing/calculate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const json = await res.json();
+            if (json.data) {
+                renderPricingData(json.data);
+            }
+        } catch (e) {
+            console.warn('Pricing API calculation error:', e);
+        }
+    }
+
+    function renderPricingData(d) {
+        document.getElementById('pricingNetPayable').innerText = '₹ ' + d.netPayableAmount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById('pricingEffectiveRate').innerText = '₹ ' + d.effectiveRatePerKg.toFixed(2) + ' / kg (₹' + (d.effectiveRatePerKg * 100).toFixed(2) + '/qtl)';
+        document.getElementById('pricingScore').innerText = d.qualityScore.toFixed(1) + ' / 100';
+        document.getElementById('pricingGrossBase').innerText = '₹ ' + d.grossBaseAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+        document.getElementById('pricingBonus').innerText = '+₹ ' + d.qualityIncentiveBonus.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+        document.getElementById('pricingPenalty').innerText = '-₹ ' + d.penaltyDeduction.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+        document.getElementById('pricingPolicyNote').innerText = d.pricingPolicyNote;
+
+        const gradeBadge = document.getElementById('pricingGradeBadge');
+        gradeBadge.innerText = d.grade;
+        gradeBadge.className = 'risk-badge ' + (d.grade === 'GRADE_A' ? 'risk-optimal' : (d.grade === 'GRADE_B' ? 'risk-warning' : 'risk-critical'));
+    }
+
+    // Digital Grain Passport Logic
+    async function fetchGrainPassport() {
+        const lot = document.getElementById('passportLotSearch').value.trim();
+        try {
+            const res = await fetch('/api/provenance/' + lot);
+            const json = await res.json();
+            if (json.data) {
+                renderPassport(json.data);
+                showToast('Grain Passport verified via SHA-256 batch hash!');
+            } else {
+                showToast('Lot not found in registry');
+            }
+        } catch (e) {
+            console.error(e);
+            showToast('Passport lookup error: ' + e);
+        }
+    }
+
+    function renderPassport(p) {
+        document.getElementById('passLotNo').innerText = p.lotNumber;
+        document.getElementById('passHash').innerText = p.cryptographicBatchHash;
+        document.getElementById('passProduct').innerText = p.productName;
+        document.getElementById('passQty').innerText = p.quantityKg.toLocaleString() + ' kg';
+        document.getElementById('passGrade').innerText = p.certifiedGrade + ' (' + (p.qualityScore || 89.5).toFixed(1) + '/100)';
+        document.getElementById('passSafeDays').innerText = '~' + p.estimatedSafeStorageDaysRemaining + ' Days Safe';
+
+        if (p.journey && p.journey.length > 0) {
+            const cont = document.getElementById('passMilestones');
+            cont.innerHTML = p.journey.map(m => `
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-title">${m.stage}</div>
+                    <div class="timeline-meta">${m.location} &bull; ${m.timestamp}</div>
+                    <div class="timeline-verified">&check; Verified by: ${m.verifiedBy} [${m.status}]</div>
+                </div>
+            `).join('');
+        }
+    }
+
+    // Reports Viewer Logic
+    async function loadReport(endpoint, title) {
+        document.getElementById('reportActiveTitle').innerText = title;
+        document.getElementById('reportActiveEndpoint').innerText = 'GET ' + endpoint;
+
+        try {
+            const res = await fetch(endpoint);
+            const json = await res.json();
+            document.getElementById('reportRawJson').innerText = JSON.stringify(json, null, 2);
+
+            const tbody = document.getElementById('reportTableBody');
+            const theadRow = document.getElementById('reportTableHeadRow');
+
+            if (endpoint.includes('warehouse-capacity') && json.data) {
+                theadRow.innerHTML = '<th>Warehouse Code</th><th>Name</th><th>Total Cap</th><th>Used Cap</th><th>Available</th><th>Utilization %</th><th>Status</th>';
+                const list = json.data.warehouses || (Array.isArray(json.data) ? json.data : []);
+                tbody.innerHTML = list.map(w => `
+                    <tr>
+                        <td class="mono">${w.warehouseCode}</td>
+                        <td>${w.warehouseName}</td>
+                        <td class="mono">${w.totalCapacity.toLocaleString()} kg</td>
+                        <td class="mono" style="color: var(--accent-amber);">${w.usedCapacity.toLocaleString()} kg</td>
+                        <td class="mono" style="color: var(--accent-green);">${w.availableCapacity.toLocaleString()} kg</td>
+                        <td class="mono">${w.utilizationPercentage.toFixed(1)} %</td>
+                        <td><span class="risk-badge risk-optimal">${w.status}</span></td>
+                    </tr>
+                `).join('');
+
+                if (list.length > 0) {
+                    const first = list[0];
+                    document.getElementById('kpiTotalCap').innerText = first.totalCapacity.toLocaleString() + ' kg';
+                    document.getElementById('kpiStoredGrain').innerText = first.usedCapacity.toLocaleString() + ' kg';
+                    document.getElementById('kpiFreeCap').innerText = first.availableCapacity.toLocaleString() + ' kg';
+                    document.getElementById('kpiFillSub').innerText = first.utilizationPercentage.toFixed(1) + '% Silo Fill Level';
+                    document.getElementById('siloLevelBadge').innerText = first.utilizationPercentage.toFixed(1) + '% Fill';
+                    document.getElementById('siloGrainFill').style.height = Math.max(10, first.utilizationPercentage) + '%';
+                }
+            } else if (endpoint.includes('inventory') && json.data) {
+                theadRow.innerHTML = '<th>Lot Number</th><th>Product</th><th>Quantity</th><th>Grade</th><th>Warehouse</th><th>Status</th>';
+                const items = json.data.items || (Array.isArray(json.data) ? json.data : []);
+                tbody.innerHTML = items.map(i => `
+                    <tr>
+                        <td class="mono">${i.lotNumber}</td>
+                        <td>${i.productName}</td>
+                        <td class="mono">${i.quantity.toLocaleString()} kg</td>
+                        <td class="mono"><span class="risk-badge risk-optimal">${i.grade}</span></td>
+                        <td>${i.warehouseName}</td>
+                        <td><span class="risk-badge risk-optimal">STORED</span></td>
+                    </tr>
+                `).join('');
+            } else if (endpoint.includes('balance-sheet') && json.data) {
+                theadRow.innerHTML = '<th>Category</th><th colspan="6">Amount (INR)</th>';
+                tbody.innerHTML = `
+                    <tr><td><strong>Total Assets (Inventory + Cash)</strong></td><td colspan="6" class="mono" style="color:var(--accent-green); font-weight:700;">₹ ${(json.data.totalAssets || 0).toLocaleString()}</td></tr>
+                    <tr><td><strong>Total Liabilities (Farmer Payables)</strong></td><td colspan="6" class="mono" style="color:var(--accent-rose); font-weight:700;">₹ ${(json.data.totalLiabilities || 0).toLocaleString()}</td></tr>
+                    <tr><td><strong>Total Equity (Reserves)</strong></td><td colspan="6" class="mono" style="color:var(--accent-cyan); font-weight:700;">₹ ${(json.data.totalEquity || 0).toLocaleString()}</td></tr>
+                `;
+            } else if (endpoint.includes('profit-loss') && json.data) {
+                theadRow.innerHTML = '<th>Financial Head</th><th colspan="6">Amount (INR)</th>';
+                tbody.innerHTML = `
+                    <tr><td><strong>PDS Distribution Sales Revenue</strong></td><td colspan="6" class="mono" style="color:var(--accent-green); font-weight:700;">₹ ${(json.data.totalIncome || 0).toLocaleString()}</td></tr>
+                    <tr><td><strong>Storage & Handling Expenses</strong></td><td colspan="6" class="mono" style="color:var(--accent-rose); font-weight:700;">₹ ${(json.data.totalExpense || 0).toLocaleString()}</td></tr>
+                    <tr><td><strong>Net Operating Result</strong></td><td colspan="6" class="mono" style="color:var(--accent-cyan); font-weight:700;">₹ ${(json.data.netProfitOrLoss || 0).toLocaleString()}</td></tr>
+                `;
+            }
+        } catch (e) {
+            document.getElementById('reportRawJson').innerText = 'Error fetching endpoint: ' + e;
+        }
+    }
+
+    // API Sandbox Tester
+    async function testApiEndpoint(method, url) {
+        const consoleEl = document.getElementById('apiResponseConsole');
+        consoleEl.innerText = 'Requesting ' + method + ' ' + url + ' ...';
+        try {
+            const res = await fetch(url);
+            const data = await res.json();
+            consoleEl.innerText = JSON.stringify(data, null, 2);
+            showToast('Endpoint ' + url + ' executed!');
+        } catch (e) {
+            consoleEl.innerText = 'Error calling ' + url + ': ' + e;
+        }
+    }
+
+    // Auto initialize on page load
+    window.addEventListener('DOMContentLoaded', () => {
+        loadLatestTelemetry();
+        runPricingCalculation();
+        fetchGrainPassport();
+        loadReport('/api/reports/warehouse-capacity', 'Warehouse Capacity Matrix');
+    });
+</script>
+</body>
+</html>

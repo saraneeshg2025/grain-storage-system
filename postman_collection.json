@@ -1,0 +1,1058 @@
+{
+	"info": {
+		"_postman_id": "9b1a5e12-45e8-4c12-9c3f-84d9f67a8401",
+		"name": "Digital Grain Storage & Quality Grading Management System",
+		"description": "Complete Postman collection for testing the Agricultural Warehouse Management System for Public Distribution System (PDS).",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Warehouses",
+			"item": [
+				{
+					"name": "Create Warehouse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"warehouseCode\": \"WH-ZONE-4\",\n  \"warehouseName\": \"Regional PDS Buffer Silo Zone 4\",\n  \"location\": \"Amritsar Road, Punjab\",\n  \"totalCapacity\": 80000.0,\n  \"status\": \"ACTIVE\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/warehouses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"warehouses"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get All Warehouses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/warehouses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"warehouses"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Warehouse By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/warehouses/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"warehouses",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Warehouse Capacity",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/warehouses/1/capacity",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"warehouses",
+								"1",
+								"capacity"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "2. Contacts (Vendors & Customers)",
+			"item": [
+				{
+					"name": "Create Farmer Cooperative Vendor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Haryana Kisan Progressive Cooperative\",\n  \"contactType\": \"FARMER_COOPERATIVE\",\n  \"phone\": \"+91-9812345678\",\n  \"email\": \"kisan.haryana@agricoop.org\",\n  \"address\": \"Karnal Grain Market, Haryana\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/contacts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"contacts"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create PDS Distribution Agency Customer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"South Zone PDS Distribution Agency\",\n  \"contactType\": \"PDS_DISTRIBUTION_AGENCY\",\n  \"phone\": \"+91-9988776655\",\n  \"email\": \"pds.south@civilsupplies.gov.in\",\n  \"address\": \"Food Corporation Depot, Zone 2\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/contacts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"contacts"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get All Contacts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/contacts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"contacts"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "3. Products",
+			"item": [
+				{
+					"name": "Create Product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"productCode\": \"RICE-BASMATI-A\",\n  \"productName\": \"Basmati Paddy Lot Grade A\",\n  \"grainType\": \"RICE\",\n  \"defaultGrade\": \"GRADE_A\",\n  \"unit\": \"KG\",\n  \"description\": \"Aromatic long grain basmati rice lot\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get All Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "4. Chart of Accounts & Journals",
+			"item": [
+				{
+					"name": "Create Account",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"accountCode\": \"4003\",\n  \"accountName\": \"Warehouse Maintenance Expense\",\n  \"accountType\": \"EXPENSE\",\n  \"openingBalance\": 0.0\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/accounts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"accounts"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get All Accounts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/accounts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"accounts"
+							]
+						}
+					}
+				},
+				{
+					"name": "Post Custom Journal (Double-Entry)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"journalType\": \"EXPENSE\",\n  \"description\": \"Pest control and fumigation expense\",\n  \"referenceNumber\": \"EXP-FUM-101\",\n  \"entries\": [\n    {\n      \"accountId\": 8,\n      \"debit\": 15000.0,\n      \"credit\": 0.0,\n      \"description\": \"Storage handling expense\"\n    },\n    {\n      \"accountId\": 2,\n      \"debit\": 0.0,\n      \"credit\": 15000.0,\n      \"description\": \"Paid via Bank account\"\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/journals",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"journals"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get All Journals",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/journals",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"journals"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "5. Purchase Orders",
+			"item": [
+				{
+					"name": "Create Purchase Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"poNumber\": \"PO-2026-001\",\n  \"vendorId\": 1,\n  \"warehouseId\": 1,\n  \"items\": [\n    {\n      \"productId\": 1,\n      \"quantity\": 25000.0,\n      \"unitPrice\": 24.50\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/purchase-orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"purchase-orders"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get All Purchase Orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/purchase-orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"purchase-orders"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update PO Status to APPROVED",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/purchase-orders/1/status?status=APPROVED",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"purchase-orders",
+								"1",
+								"status"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "APPROVED"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "6. Grain Lot Procurement & Quality Grading",
+			"item": [
+				{
+					"name": "Procure Grain Lot (Auto-Grade)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"lotNumber\": \"LOT-WHEAT-2026-001\",\n  \"productId\": 1,\n  \"vendorId\": 1,\n  \"warehouseId\": 1,\n  \"quantity\": 20000.0,\n  \"unitPrice\": 24.50,\n  \"moisturePercentage\": 11.2,\n  \"impurityPercentage\": 1.4,\n  \"autoStore\": false\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/grain-lots",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"grain-lots"
+							]
+						}
+					}
+				},
+				{
+					"name": "Perform Quality Re-Grading",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"moisturePercentage\": 10.8,\n  \"impurityPercentage\": 1.1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/grain-lots/1/grade",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"grain-lots",
+								"1",
+								"grade"
+							]
+						}
+					}
+				},
+				{
+					"name": "Store Grain Lot (Capacity Validation & Inventory Addition)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/grain-lots/1/store",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"grain-lots",
+								"1",
+								"store"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get All Grain Lots",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/grain-lots",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"grain-lots"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "7. Vendor Bills & Payments",
+			"item": [
+				{
+					"name": "Create Vendor Bill",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"billNumber\": \"BILL-2026-001\",\n  \"purchaseOrderId\": 1,\n  \"vendorId\": 1,\n  \"amount\": 490000.0\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/vendor-bills",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"vendor-bills"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get All Vendor Bills",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/vendor-bills",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"vendor-bills"
+							]
+						}
+					}
+				},
+				{
+					"name": "Make Payment To Farmer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"paymentNumber\": \"PAY-FRM-001\",\n  \"partyId\": 1,\n  \"amount\": 490000.0,\n  \"paymentType\": \"BANK\",\n  \"paymentCategory\": \"VENDOR_PAYMENT\",\n  \"referenceNumber\": \"NEFT-SBI-987654\",\n  \"vendorBillId\": 1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/payments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"payments"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "8. Inventory",
+			"item": [
+				{
+					"name": "Get All Inventory",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/inventory",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"inventory"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Inventory By Warehouse",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/inventory/warehouse/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"inventory",
+								"warehouse",
+								"1"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "9. Sales Orders & Distribution",
+			"item": [
+				{
+					"name": "Create Sales Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"salesOrderNumber\": \"SO-PDS-2026-001\",\n  \"customerId\": 2,\n  \"warehouseId\": 1,\n  \"items\": [\n    {\n      \"productId\": 1,\n      \"quantity\": 5000.0,\n      \"unitPrice\": 28.00\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/sales-orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"sales-orders"
+							]
+						}
+					}
+				},
+				{
+					"name": "Dispatch Grain Order (Frees Capacity, Deducts Stock, Creates Invoice)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/sales-orders/1/dispatch",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"sales-orders",
+								"1",
+								"dispatch"
+							]
+						}
+					}
+				},
+				{
+					"name": "Receive Payment from PDS Agency",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"paymentNumber\": \"PAY-CUST-001\",\n  \"partyId\": 2,\n  \"amount\": 140000.0,\n  \"paymentType\": \"BANK\",\n  \"paymentCategory\": \"CUSTOMER_RECEIPT\",\n  \"referenceNumber\": \"RTGS-PDS-112233\",\n  \"customerInvoiceId\": 1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/payments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"payments"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "10. Budgets",
+			"item": [
+				{
+					"name": "Create Budget",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"budgetName\": \"Wheat Procurement Zone 3 Budget\",\n  \"financialYear\": \"2026-27\",\n  \"warehouseId\": 1,\n  \"accountId\": 7,\n  \"plannedAmount\": 1500000.0\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/budgets",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"budgets"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Budget Variance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/budgets/variance",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"budgets",
+								"variance"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "11. Reports",
+			"item": [
+				{
+					"name": "Balance Sheet Report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/reports/balance-sheet",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"reports",
+								"balance-sheet"
+							]
+						}
+					}
+				},
+				{
+					"name": "Profit & Loss Report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/reports/profit-loss",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"reports",
+								"profit-loss"
+							]
+						}
+					}
+				},
+				{
+					"name": "Budget Variance Report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/reports/budget",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"reports",
+								"budget"
+							]
+						}
+					}
+				},
+				{
+					"name": "Warehouse Capacity Report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/reports/warehouse-capacity",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"reports",
+								"warehouse-capacity"
+							]
+						}
+					}
+				},
+				{
+					"name": "Inventory Report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/reports/inventory",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"reports",
+								"inventory"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "15. Silo IoT Micro-Climate Telemetry",
+			"item": [
+				{
+					"name": "Record IoT Telemetry",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"warehouseId\": 1,\n  \"siloSection\": \"Chamber A1 - Silo Core\",\n  \"temperatureCelsius\": 25.5,\n  \"relativeHumidityPercentage\": 58.0,\n  \"co2Ppm\": 520.0\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/telemetry/record",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"telemetry",
+								"record"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Warehouse Telemetry History",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/telemetry/warehouse/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"telemetry",
+								"warehouse",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Latest Telemetry Reading",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/telemetry/warehouse/1/latest",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"telemetry",
+								"warehouse",
+								"1",
+								"latest"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Active Risk Alerts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/telemetry/alerts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"telemetry",
+								"alerts"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "16. Dynamic MSP & Quality Incentive Matrix",
+			"item": [
+				{
+					"name": "Calculate Dynamic Procurement Price",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"grainType\": \"WHEAT\",\n  \"quantityKg\": 20000.0,\n  \"moisturePercentage\": 11.2,\n  \"impurityPercentage\": 1.4\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/pricing/calculate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"pricing",
+								"calculate"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "17. Digital Grain Quality Passport & Provenance",
+			"item": [
+				{
+					"name": "Get Digital Grain Passport by Lot Number",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/provenance/LOT-PDS-WHEAT-01",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"provenance",
+								"LOT-PDS-WHEAT-01"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Digital Grain Passport by Lot ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/provenance/id/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"provenance",
+								"id",
+								"1"
+							]
+						}
+					}
+				}
+			]
+		}
+	]
+}
